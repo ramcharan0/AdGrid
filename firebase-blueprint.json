@@ -1,0 +1,102 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "System user (Advertiser or Screen Owner)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["ADVERTISER", "OWNER", "ADMIN"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "email", "role", "createdAt"]
+    },
+    "Screen": {
+      "title": "Screen",
+      "description": "Public LCD screen inventory",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "location": {
+          "type": "object",
+          "properties": {
+            "latitude": { "type": "number" },
+            "longitude": { "type": "number" },
+            "address": { "type": "string" }
+          }
+        },
+        "category": { "type": "string" },
+        "status": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED", "ACTIVE", "OFFLINE"] },
+        "resolution": { "type": "string" },
+        "dailyFootfall": { "type": "number" },
+        "pricing": {
+          "type": "object",
+          "properties": {
+            "hourly": { "type": "number" },
+            "daily": { "type": "number" }
+          }
+        },
+        "imageUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "ownerId", "name", "location", "status", "createdAt"]
+    },
+    "Campaign": {
+      "title": "Campaign",
+      "description": "Advertising campaign",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "advertiserId": { "type": "string" },
+        "name": { "type": "string" },
+        "budget": { "type": "number" },
+        "status": { "type": "string", "enum": ["DRAFT", "PENDING", "ACTIVE", "COMPLETED", "REJECTED"] },
+        "startDate": { "type": "string", "format": "date-time" },
+        "endDate": { "type": "string", "format": "date-time" },
+        "mediaUrl": { "type": "string" },
+        "mediaType": { "type": "string", "enum": ["image", "video"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "advertiserId", "name", "status", "createdAt"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Screen slot booking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "campaignId": { "type": "string" },
+        "screenId": { "type": "string" },
+        "status": { "type": "string", "enum": ["PENDING", "CONFIRMED", "CANCELLED"] },
+        "amount": { "type": "number" },
+        "scheduledTime": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "campaignId", "screenId", "status", "amount", "createdAt"]
+    },
+    "PlaybackLog": {
+      "title": "PlaybackLog",
+      "description": "Record of ad playback on screen",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "screenId": { "type": "string" },
+        "campaignId": { "type": "string" },
+        "playedAt": { "type": "string", "format": "date-time" },
+        "duration": { "type": "number" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": { "schema": "User", "description": "User profiles" },
+    "/screens/{screenId}": { "schema": "Screen", "description": "Available screens" },
+    "/campaigns/{campaignId}": { "schema": "Campaign", "description": "Advertiser campaigns" },
+    "/bookings/{bookingId}": { "schema": "Booking", "description": "Booked slots" },
+    "/playback_logs/{logId}": { "schema": "PlaybackLog", "description": "Proofs of display" }
+  }
+}

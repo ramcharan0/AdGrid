@@ -1,0 +1,11 @@
+{
+  "name": "AdGrid",
+  "description": "A scalable digital out-of-home (DOOH) advertising network platform. Enables real-time booking, management, and tracking of advertisements on public LCD screens with a smart marketplace for advertisers and screen owners.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
